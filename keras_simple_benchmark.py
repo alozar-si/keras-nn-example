@@ -1,7 +1,7 @@
 #Use mlenv-tf
 from time import time
 import os
-use_amd_gpu = 1
+use_amd_gpu = 0
 if(use_amd_gpu):
     print("USING AMD GPU")
     os.environ["KERAS_BACKEND"] = "plaidml.keras.backend"
@@ -49,8 +49,8 @@ mymodel = create_model()
 mymodel.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 print("Training 10 epochs with batch size 16384")
 start_time = time()
-history = mymodel.fit(x_train, y_train, epochs=10, batch_size=16384, validation_split=0.2, shuffle=True, verbose=1)
-print("It took", time()-start_time, "s for 10 epochs of 16384")
+history = mymodel.fit(x_train, y_train, epochs=10, batch_size=1024, validation_split=0.2, shuffle=True, verbose=1)
+print("It took", time()-start_time, "s for 10 epochs of 1024")
 start_time = time()
 mymodel.predict(x_test)
 print("It took", time()-start_time, "s to inference")
@@ -60,8 +60,8 @@ mymodel = create_model()
 mymodel.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 print("Training 10 epochs with full dataset")
 start_time = time()
-history = mymodel.fit(x_train, y_train, epochs=10, validation_split=0.2, shuffle=True, verbose=1)
-print("It took", time()-start_time, "s for 10 epochs")
+history = mymodel.fit(x_train, y_train, epochs=10, batch_size=30000, validation_split=0.2, shuffle=True, verbose=1)
+print("It took", time()-start_time, "s for 10 epochs of 30000")
 
 start_time = time()
 mymodel.predict(x_test)
